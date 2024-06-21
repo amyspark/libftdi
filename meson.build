@@ -8,7 +8,9 @@ project(
 	default_options: [
 		'buildtype=debugoptimized',
 		'c_std=c11',
+		'build.c_std=c11',
 		'cpp_std=c++11',
+		'build.cpp_std=c++11',
 	],
 	meson_version: '>= 0.59',
 	license: 'LGPL-2.1 OR (LGPL-2.1 AND GPL-2.0)',
@@ -19,7 +21,6 @@ pkg = import('pkgconfig')
 
 native = meson.is_cross_build() and get_option('build_native')
 cc = meson.get_compiler('c', native: native)
-add_languages('cpp', native: native)
 
 version = meson.project_version().split('.')
 
@@ -50,6 +51,7 @@ subdir('doc')
 subdir('src')
 
 if ftdipp.allowed()
+	add_languages('cpp', native: native)
 	# Meson does not allow subprojects in random directories
 	subdir('ftdipp')
 endif
